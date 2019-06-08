@@ -84,9 +84,6 @@ Content/SampleMap/*
 Content/KiteDemo/*
 Content/Lighting/*
 
-# Built data
-*/Maps/*BuiltData.uasset
-
 # SoulCave and SoulCity
 Content/Soul*
 
