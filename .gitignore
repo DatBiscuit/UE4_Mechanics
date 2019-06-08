@@ -86,3 +86,6 @@ Content/Lighting/*
 
 # Built data
 */Maps/*BuiltData.uasset
+
+# Test for SoulCave ignore
+Content/SoulCave/*
