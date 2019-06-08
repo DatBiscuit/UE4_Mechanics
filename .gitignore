@@ -87,5 +87,15 @@ Content/Lighting/*
 # Built data
 */Maps/*BuiltData.uasset
 
-# Test for SoulCave ignore
-Content/SoulCave/*
+# SoulCave and SoulCity
+Content/Soul*
+
+# Infinity Blades
+Content/InfinityBlade*
+
+#GT Materials
+Content/GT_Free2019/*
+
+# Water plane
+Content/WaterPlane
+
