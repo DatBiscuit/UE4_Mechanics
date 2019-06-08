@@ -80,4 +80,7 @@ DerivedDataCache/*
 Content/Paragon*
 
 # Kite demo
-Content/KitDemo/*
+Content/KiteDemo/*
+
+# Built data
+*/Maps/*BuiltData.uasset
