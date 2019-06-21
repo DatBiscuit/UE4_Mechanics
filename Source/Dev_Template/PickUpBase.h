@@ -49,7 +49,7 @@ protected:
 
 private:
 	/**Static mesh to represent the pickup in the level*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* PickupMesh;
 	
 	

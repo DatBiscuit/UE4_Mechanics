@@ -24,6 +24,7 @@ class ADev_TemplateCharacter : public ACharacter
 		class USphereComponent* CollectionSphere;
 
 
+
 public:
 	ADev_TemplateCharacter();
 
@@ -93,26 +94,11 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-	/**
-	// Overlap
-	UFUNCTION()
-		void BeginOverlap(UPrimitiveComponent* OverlappedComponent,
-			AActor* OtherActor,
-			UPrimitiveComponent* OtherComp,
-			int32 OtherBodyIndex,
-			bool bFromSweep,
-			const FHitResult &SweepResult);
-			*/
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// End of APawn interface
-
-	/**Called when we press a key to collect any pickups of the type PickUpBase
-	UFUNCTION(BlueprintCallable, Category = "Pickups")
-		void CollectPickups();
-		*/
 
 	//Called when we press a key to have the character sprint
 	UFUNCTION(BlueprintCallable, Category = "Stats")
@@ -124,7 +110,7 @@ protected:
 
 	//The starting health level of our character
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
-	float InitialHealth;
+		float InitialHealth;
 
 	//The starting stamina level of our character
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")

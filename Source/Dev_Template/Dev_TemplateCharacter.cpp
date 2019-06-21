@@ -12,6 +12,7 @@
 #include "Classes/Components/SphereComponent.h"
 #include "PickUpBase.h"
 #include "ItemPickup.h"
+#include "CableComponent.h"
 #include "Public/TimerManager.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -66,12 +67,6 @@ ADev_TemplateCharacter::ADev_TemplateCharacter()
 
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	/**
-	//Colliding with an object
-	CollectionSphere->OnComponentBeginOverlap.AddDynamic(this, &ADev_TemplateCharacter::BeginOverlap);
-	*/
-
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
