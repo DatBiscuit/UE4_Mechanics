@@ -60,10 +60,50 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Stats")
 		void UpdateStamina(float StaminaUpdate);
 
+	/**Function to update the character's mana**/
+	UFUNCTION(BlueprintCallable, Category = "Stats")
+		void UpdateMana(float ManaUpdate);
+
+	/**Accessor function for mana*/
+	UFUNCTION(BlueprintCallable, Category = "Stats")
+		float GetCurrentMana();
+
+	/**Accessor function for initial mana*/
+	UFUNCTION(BlueprintCallable, Category = "Stats")
+		float GetInitialMana();
+
+	//Whether or not the character is sprinting
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		bool ForcefieldUp;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//Function that handles firing projectiles
+	UFUNCTION()
+		void Fire();
+
+	UFUNCTION()
+		void SwitchForceField();
+
+
+	UFUNCTION()
+		void UpdateStaminaBar();
+
+	UFUNCTION()
+		void UpdateManaBar();
+
+
+	// Muzzle offset from camera location
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector MuzzleOffset;
+
+	/// Projectile class to spawn.
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class AProjectile_Base> ProjectileClass;
+
 	
+	void BeginPlay();
 
 protected:
 
@@ -116,6 +156,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float InitialStamina;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		float InitialMana;
+
 	//The increase of speed when sprinting
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
 		float SpeedFactor;
@@ -133,9 +176,13 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Stats")
 		float CharacterHealth;
 
-	//Current health level of our character
+	//Current stamina of our character
 	UPROPERTY(VisibleAnywhere, Category = "Stats")
 		float CharacterStamina;
+
+	//Curent mana of our character
+	UPROPERTY(VisibleAnywhere, Category = "Stats")
+		float CharacterMana;
 
 public:
 	/** Returns CameraBoom subobject **/

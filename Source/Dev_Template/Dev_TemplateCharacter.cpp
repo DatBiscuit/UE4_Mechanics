@@ -14,6 +14,8 @@
 #include "ItemPickup.h"
 #include "CableComponent.h"
 #include "Public/TimerManager.h"
+#include "Projectile_Base.h"
+#include "Engine/GameEngine.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ADev_TemplateCharacter
@@ -65,6 +67,10 @@ ADev_TemplateCharacter::ADev_TemplateCharacter()
 	BaseSpeed = GetCharacterMovement()->MaxWalkSpeed;
 	IsSprinting = false;
 
+	//Set base mana for character
+	InitialMana = 100.0f;
+	CharacterMana = InitialMana;
+
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -107,6 +113,11 @@ void ADev_TemplateCharacter::SetupPlayerInputComponent(class UInputComponent* Pl
 	//PlayerInputComponent->BindAction("Collect", IE_Released, this, &ADev_TemplateCharacter::CollectPickups);
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ADev_TemplateCharacter::CharacterSprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ADev_TemplateCharacter::StopCharacterSprint);
+
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ADev_TemplateCharacter::Fire);
+
+	PlayerInputComponent->BindAction("ForceField", IE_Pressed, this, &ADev_TemplateCharacter::SwitchForceField);
+
 }
 
 
@@ -292,6 +303,12 @@ void ADev_TemplateCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	UpdateStaminaBar();
+	UpdateManaBar();
+
+}
+
+void ADev_TemplateCharacter::UpdateStaminaBar() {
 	//If the character is sprinting
 	if (IsSprinting) {
 
@@ -310,5 +327,78 @@ void ADev_TemplateCharacter::Tick(float DeltaTime)
 		//then replenish the staminia over time
 		UpdateStamina(0.25f);
 	}
+}
 
+void ADev_TemplateCharacter::UpdateManaBar() {
+	//IF the character is using the forcefield
+	if (ForcefieldUp) {
+		if (GetCurrentMana() <= 0) {
+			ForcefieldUp = false;
+			UpdateMana(-1.0f);
+			SwitchForceField();
+		}
+		else {
+			UpdateMana(-0.1f);
+		}
+	}
+}
+
+float ADev_TemplateCharacter::GetInitialMana() {
+	return InitialMana;
+}
+
+float ADev_TemplateCharacter::GetCurrentMana() {
+	return CharacterMana;
+}
+
+void ADev_TemplateCharacter::UpdateMana(float ManaUpdate) {
+	//Change the stamina level of the character
+	CharacterMana = GetCurrentMana() + ManaUpdate;
+	//Making sure we do not go beyond the maximum stamina capacity
+	if (GetCurrentMana() > 100) {
+		CharacterMana = 100;
+	}
+	//Making sure we do not go below 0 on stamina
+	if (GetCurrentMana() < 0) {
+		CharacterMana = 0;
+	}
+}
+
+
+void ADev_TemplateCharacter::Fire() {
+	// Attempt to fire a projectile.
+	if (ProjectileClass)
+	{
+		UWorld* const World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = Instigator;
+			// Spawn the projectile at the muzzle.
+			AProjectile_Base* Projectile = World->SpawnActor<AProjectile_Base>(ProjectileClass, CollectionSphere->GetComponentLocation(), CollectionSphere->GetComponentRotation(), SpawnParams);
+			if (Projectile)
+			{
+				// Set the projectile's initial trajectory.
+				FVector LaunchDirection = CollectionSphere->GetForwardVector();
+				Projectile->FireInDirection(LaunchDirection);
+			}
+		}
+	}
+}
+
+
+void ADev_TemplateCharacter::SwitchForceField() {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("World delta for current frame equals %f"), GetWorld()->TimeSeconds));
+	if (ForcefieldUp) {
+		ForcefieldUp = false;
+	}
+	else {
+		ForcefieldUp = true;
+	}
+}
+
+void ADev_TemplateCharacter::BeginPlay() {
+	Super::BeginPlay();
+	ForcefieldUp = false;
 }
