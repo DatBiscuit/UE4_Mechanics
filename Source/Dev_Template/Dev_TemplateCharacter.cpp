@@ -379,6 +379,7 @@ void ADev_TemplateCharacter::Fire() {
 			AProjectile_Base* Projectile = World->SpawnActor<AProjectile_Base>(ProjectileClass, CollectionSphere->GetComponentLocation(), CollectionSphere->GetComponentRotation(), SpawnParams);
 			if (Projectile)
 			{
+				GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("PewPew")));
 				// Set the projectile's initial trajectory.
 				FVector LaunchDirection = CollectionSphere->GetForwardVector();
 				Projectile->FireInDirection(LaunchDirection);
@@ -389,7 +390,7 @@ void ADev_TemplateCharacter::Fire() {
 
 
 void ADev_TemplateCharacter::SwitchForceField() {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("World delta for current frame equals %f"), GetWorld()->TimeSeconds));
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, FString::Printf(TEXT("World delta for current frame equals %f"), GetWorld()->TimeSeconds));
 	if (ForcefieldUp) {
 		ForcefieldUp = false;
 	}
